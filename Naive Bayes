@@ -1,0 +1,30 @@
+from sklearn.naive_bayes import GaussianNB
+import numpy as np
+from matplotlib import pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+clf = GaussianNB()
+
+X = [[181, 80, 44], [177, 70, 43], [160, 60, 38], [154, 54, 37], [166, 65, 40],
+     [190, 90, 47], [175, 64, 39],
+     [177, 70, 40], [159, 55, 37], [171, 75, 42], [181, 85, 43]]
+X = np.array(X).reshape((len(X), 3))
+
+
+Y = ['male', 'male', 'female', 'female', 'male', 'male', 'female', 'female', 'female', 'male', 'male']
+Y_new = [0] * 11
+for i in range(11):
+    if(Y[i]=='male'):
+        Y_new[i] = 1
+
+seed = 1
+test_size = 0.3
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=test_size,random_state = seed)
+
+clf = clf.fit(X_train,Y_train)
+
+prediction = clf.predict(X_test)
+
+accuracy = accuracy_score(Y_test,prediction)
+print("Accuracy:    %.2f%%" % (accuracy * 100.00))
